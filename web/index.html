@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>DHT Proxy Monitor</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<span class="logo"><img src="opendht.png" alt="" /></span>
+						<h1>DHT Proxy Monitor</h1>
+						<p>Just a simple monitoring page for this <a href="%{address_proxy}">DHT Proxy</a></p>
+					</header>
+
+				<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="#current" class="active">Current status</a></li>
+							<li><a href="#history">History</a></li>
+							<li><a href="#contribute">Contribute</a></li>
+						</ul>
+					</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+					<!-- Current status Section -->
+						<section id="current" class="main special">
+							<header class="major">
+								<h2>Current status</h2>
+								<p>This is the latest statistics retrieven by the app. (Updated every 2 minutes)</p>
+							</header>
+							<ul class="statistics">
+								<li class="style1">
+									<span class="icon fa-assistive-listening-systems"></span>
+									<strong>%{value_listen}</strong> Listeners
+								</li>
+								<li class="style2">
+									<span class="icon fa-share-square"></span>
+									<strong>%{value_put}</strong> Permanent Puts
+								</li>
+								<li class="style3">
+									<span class="icon fa-mobile"></span>
+									<strong>%{value_push}</strong> Push Listeners
+								</li>
+								<li class="style4">
+									<span class="icon fa-connectdevelop"></span>
+									<strong>%{value_ipv4}</strong> IPv4 network size estimation
+								</li>
+								<li class="style5">
+									<span class="icon fa-connectdevelop "></span>
+									<strong>%{value_ipv6}</strong> IPv6 network size estimation
+								</li>
+							</ul>
+							<p class="content">A <em>Listener</em> results on a <b>LISTEN</b> operation on the proxy. Currently a <a href="https://ring.cx">Ring</a> account does approximately 4 LISTEN on the proxy. <em>Permanent Puts</em> are used to signal the presence (~2/account). A <em>Push Listener</em> represents a phone connected to the proxy. Finally, <em>estimations</em> represents the power of 2 greater than the number of DHT nodes actually active on the network.</p>
+						</section>
+
+					<!-- History Section -->
+						<section id="history" class="main special">
+							<header class="major">
+								<h2>History</h2>
+								<div id="graphes">
+									<div class="graph"><canvas id="listenersGraph"></canvas></div>
+									<div class="graph"><canvas id="putsGraph"></canvas></div>
+									<div class="graph"><canvas id="pushListenersGraph"></canvas></div>
+									<div class="graph"><canvas id="ipv4SizeGraph"></canvas></div>
+									<div class="graph"><canvas id="ipv6SizeGraph"></canvas></div>
+								</div>
+							</header>
+						</section>
+
+						<!-- Get Started -->
+							<section id="contribute" class="main special">
+								<header class="major">
+									<h2>Contribute</h2>
+									<p>This is a simple Rust application retrieving statistics from an OpenDHT (<em>a C++ distributed hasht table library under GPLv3</em>) proxy server. Feel free to contribute.</p>
+								</header>
+								<footer class="major">
+									<ul class="actions special">
+										<li><a href="https://github.com/AmarOk1412/dht_proxy_monitor" class="button primary">GitHub Repo</a></li>
+										<li><a href="https://opendht.net" class="button">OpenDHT</a></li>
+									</ul>
+								</footer>
+							</section>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright">Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/chart.js"></script>
+			<script>
+			var ctxl = document.getElementById("listenersGraph").getContext('2d');
+			new Chart(ctxl, {
+			    type: 'line',
+			    data: {
+			        labels: %{labels_listen},
+			        datasets: [{
+			            label: 'Listeners',
+			            data: %{data_listen},
+			            backgroundColor: '#E0C54E',
+			            borderColor: '#E0C54E',
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+			ctxl = document.getElementById("putsGraph").getContext('2d');
+			new Chart(ctxl, {
+			    type: 'line',
+			    data: {
+			        labels: %{labels_put},
+			        datasets: [{
+			            label: 'Permanent Puts',
+			            data: %{data_put},
+			            backgroundColor: '#47453C',
+			            borderColor: '#47453C',
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+			ctxl = document.getElementById("pushListenersGraph").getContext('2d');
+			new Chart(ctxl, {
+			    type: 'line',
+			    data: {
+			        labels: %{labels_push},
+			        datasets: [{
+			            label: 'Push Listeners',
+			            data: %{data_push},
+			            backgroundColor: '#65C7E1',
+			            borderColor: '#65C7E1',
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+			ctxl = document.getElementById("ipv4SizeGraph").getContext('2d');
+			new Chart(ctxl, {
+			    type: 'line',
+			    data: {
+			        labels: %{labels_ipv4_size},
+			        datasets: [{
+			            label: 'IPv4 Network Size',
+			            data: %{data_ipv4_size},
+			            backgroundColor: '#AD884D',
+			            borderColor: '#AD884D',
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+			ctxl = document.getElementById("ipv6SizeGraph").getContext('2d');
+			new Chart(ctxl, {
+			    type: 'line',
+			    data: {
+			        labels: %{labels_ipv6_size},
+			        datasets: [{
+			            label: 'IPv6 Network Size',
+			            data: %{data_ipv6_size},
+			            backgroundColor: '#4EE0D7',
+			            borderColor: '#4EE0D7',
+			            borderWidth: 1
+			        }]
+			    },
+			    options: {
+			        scales: {
+			            yAxes: [{
+			                ticks: {
+			                    beginAtZero:true
+			                }
+			            }]
+			        }
+			    }
+			});
+			</script>
+	</body>
+</html>
