@@ -27,12 +27,6 @@ use std::fs::File;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 
-/**
- * Publicly accessible to manipulate RORI from HTTP requests
- * Features:
- * + Ring compatible name server
- * TBD
- */
 pub struct API {
     address: String,
     cert_path: String,
@@ -41,14 +35,6 @@ pub struct API {
 }
 
 impl API {
-    /**
-     * Initializes the API
-     * @param monitor to access to RORI informations
-     * @param address where the server listens
-     * @param cert_path where the cert path is located
-     * @param cert_pass
-     * @return an API structure
-     */
     pub fn new(monitor: Arc<Mutex<StatsMonitor>>, address: String, cert_path: String, cert_pass: String) -> API {
         API {
             address,

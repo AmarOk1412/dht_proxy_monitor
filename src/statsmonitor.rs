@@ -71,9 +71,8 @@ impl StatsMonitor
         sm.put_op_cnt.push_back(v["putCount"].as_u64().unwrap_or(0) as usize);
         sm.subscribe_op_cnt.push_back(v["pushListenersCount"].as_u64().unwrap_or(0) as usize);
         sm.request_rate_hist.push_back(v["requestRate"].as_f64().unwrap_or(0.));
-        sm.ipv4_size_hist.push_back(v["ipv4_network_size"].as_u64().unwrap_or(0) as usize);
-        sm.ipv6_size_hist.push_back(v["ipv6_network_size"].as_u64().unwrap_or(0) as usize);
-        debug!("{:#?}", v["ipv4_network_size"].as_u64().unwrap());
+        sm.ipv4_size_hist.push_back(v["nodeInfo"]["ipv4"]["network_size_estimation"].as_u64().unwrap_or(0) as usize);
+        sm.ipv6_size_hist.push_back(v["nodeInfo"]["ipv6"]["network_size_estimation"].as_u64().unwrap_or(0) as usize);
         Ok(())
     }
 }
